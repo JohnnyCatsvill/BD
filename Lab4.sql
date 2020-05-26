@@ -39,30 +39,30 @@ CREATE TABLE "Room_in_Booking" (
 );
 
 BULK INSERT Hotel
-FROM 'C:\Users\aleks\OneDrive\Рабочий стол\csv\hotel.csv'
+FROM 'C:\Users\aleks\OneDrive\Р Р°Р±РѕС‡РёР№ СЃС‚РѕР»\csv\hotel.csv'
 WITH (fieldterminator = ';', rowterminator = '\n', codepage = '65001');
 
 BULK INSERT Room_Category
-FROM 'C:\Users\aleks\OneDrive\Рабочий стол\csv\room_category.csv'
+FROM 'C:\Users\aleks\OneDrive\Р Р°Р±РѕС‡РёР№ СЃС‚РѕР»\csv\room_category.csv'
 WITH (fieldterminator = ';', rowterminator = '\n', codepage = '65001');
 
 BULK INSERT Room
-FROM 'C:\Users\aleks\OneDrive\Рабочий стол\csv\room.csv'
+FROM 'C:\Users\aleks\OneDrive\Р Р°Р±РѕС‡РёР№ СЃС‚РѕР»\csv\room.csv'
 WITH (fieldterminator = ';', rowterminator = '\n', codepage = '65001');
 
 BULK INSERT Client
-FROM 'C:\Users\aleks\OneDrive\Рабочий стол\csv\client.csv'
+FROM 'C:\Users\aleks\OneDrive\Р Р°Р±РѕС‡РёР№ СЃС‚РѕР»\csv\client.csv'
 WITH (fieldterminator = ';', rowterminator = '\n', codepage = '65001');
 
 BULK INSERT Booking
-FROM 'C:\Users\aleks\OneDrive\Рабочий стол\csv\booking.csv'
+FROM 'C:\Users\aleks\OneDrive\Р Р°Р±РѕС‡РёР№ СЃС‚РѕР»\csv\booking.csv'
 WITH (fieldterminator = ';', rowterminator = '\n', codepage = '65001');
 
 BULK INSERT Room_in_Booking
-FROM 'C:\Users\aleks\OneDrive\Рабочий стол\csv\room_in_booking.csv'
+FROM 'C:\Users\aleks\OneDrive\Р Р°Р±РѕС‡РёР№ СЃС‚РѕР»\csv\room_in_booking.csv'
 WITH (fieldterminator = ';', rowterminator = '\n', codepage = '65001');
 
-/*1.Добавить внешние ключи.*/
+/*1.Р”РѕР±Р°РІРёС‚СЊ РІРЅРµС€РЅРёРµ РєР»СЋС‡Рё.*/
 
 ALTER TABLE Room
 	ADD FOREIGN KEY (id_hotel) REFERENCES Hotel(id_hotel) ON DELETE CASCADE;
@@ -79,7 +79,7 @@ ALTER TABLE Room_in_Booking
 ALTER TABLE Room
 	ADD FOREIGN KEY (id_room_category) REFERENCES Room_Category(id_room_category) ON DELETE CASCADE;
 
-/*2.Выдать информацию о клиентах гостиницы “Космос”, проживающих в номерах категории “Люкс” на 1 апреля 2019г*/
+/*2.Р’С‹РґР°С‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ РєР»РёРµРЅС‚Р°С… РіРѕСЃС‚РёРЅРёС†С‹ вЂњРљРѕСЃРјРѕСЃвЂќ, РїСЂРѕР¶РёРІР°СЋС‰РёС… РІ РЅРѕРјРµСЂР°С… РєР°С‚РµРіРѕСЂРёРё вЂњР›СЋРєСЃвЂќ РЅР° 1 Р°РїСЂРµР»СЏ 2019Рі*/
 
 SELECT 
 	Client.name, Client.phone, Hotel.name, Room_Category.name, check_in_date, check_out_date
@@ -91,12 +91,12 @@ FROM
 	LEFT JOIN Hotel ON Room.id_hotel = Hotel.id_hotel
 	LEFT JOIN Client ON Booking.id_client = Client.id_client
 WHERE
-	Hotel.name = 'Космос' and
-	Room_Category.name = 'Люкс' and 
+	Hotel.name = 'РљРѕСЃРјРѕСЃ' and
+	Room_Category.name = 'Р›СЋРєСЃ' and 
 	check_in_date <= '2019-04-01' and 
 	check_out_date > '2019-04-01';
 
-/*3.Дать список свободных номеров всех гостиниц на 22 апреля*/
+/*3.Р”Р°С‚СЊ СЃРїРёСЃРѕРє СЃРІРѕР±РѕРґРЅС‹С… РЅРѕРјРµСЂРѕРІ РІСЃРµС… РіРѕСЃС‚РёРЅРёС† РЅР° 22 Р°РїСЂРµР»СЏ*/
 
 SELECT 
 	 Hotel.name, Hotel.stars, Room.id_room, Room.number, Room_Category.name, Room.day_cost
@@ -116,7 +116,7 @@ FROM
 WHERE
 	A.occupied is NULL
 
-/*4.Дать количество проживающих в гостинице “Космос” на 23 марта по каждой категории номеров*/
+/*4.Р”Р°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ РїСЂРѕР¶РёРІР°СЋС‰РёС… РІ РіРѕСЃС‚РёРЅРёС†Рµ вЂњРљРѕСЃРјРѕСЃвЂќ РЅР° 23 РјР°СЂС‚Р° РїРѕ РєР°Р¶РґРѕР№ РєР°С‚РµРіРѕСЂРёРё РЅРѕРјРµСЂРѕРІ*/
 
 SELECT 
 	Room_Category.name ,COUNT(Room_Category.id_room_category)
@@ -126,12 +126,12 @@ FROM
 	LEFT JOIN Room_Category ON Room.id_room_category = Room_Category.id_room_category
 	LEFT JOIN Hotel ON Room.id_hotel = Hotel.id_hotel
 WHERE
-	Hotel.name = 'Космос' and
+	Hotel.name = 'РљРѕСЃРјРѕСЃ' and
 	check_in_date <= '2019-03-23' and 
 	check_out_date > '2019-03-23'
 GROUP BY Room_Category.id_room_category, Room_Category.name	
 
-/*5.Дать список последних проживавших клиентов по всем комнатам гостиницы “Космос”, выехавшим в апреле с указанием даты выезда*/
+/*5.Р”Р°С‚СЊ СЃРїРёСЃРѕРє РїРѕСЃР»РµРґРЅРёС… РїСЂРѕР¶РёРІР°РІС€РёС… РєР»РёРµРЅС‚РѕРІ РїРѕ РІСЃРµРј РєРѕРјРЅР°С‚Р°Рј РіРѕСЃС‚РёРЅРёС†С‹ вЂњРљРѕСЃРјРѕСЃвЂќ, РІС‹РµС…Р°РІС€РёРј РІ Р°РїСЂРµР»Рµ СЃ СѓРєР°Р·Р°РЅРёРµРј РґР°С‚С‹ РІС‹РµР·РґР°*/
 
 SELECT 
 	Room.number ,Client.name, Client.phone, check_out_date
@@ -153,10 +153,10 @@ WHERE id_room_booking IN
 	GROUP BY
 		Room_in_Booking.id_room
 ) and
-	Hotel.name = 'Космос'
+	Hotel.name = 'РљРѕСЃРјРѕСЃ'
 ORDER BY number ASC;
 
-/*6.Продлить на 2 дня дату проживания в гостинице “Космос” всем клиентам комнат категории “Бизнес”, которые заселились 10 мая.*/
+/*6.РџСЂРѕРґР»РёС‚СЊ РЅР° 2 РґРЅСЏ РґР°С‚Сѓ РїСЂРѕР¶РёРІР°РЅРёСЏ РІ РіРѕСЃС‚РёРЅРёС†Рµ вЂњРљРѕСЃРјРѕСЃвЂќ РІСЃРµРј РєР»РёРµРЅС‚Р°Рј РєРѕРјРЅР°С‚ РєР°С‚РµРіРѕСЂРёРё вЂњР‘РёР·РЅРµСЃвЂќ, РєРѕС‚РѕСЂС‹Рµ Р·Р°СЃРµР»РёР»РёСЃСЊ 10 РјР°СЏ.*/
 
 UPDATE 
 	Room_in_Booking
@@ -173,11 +173,11 @@ WHERE
 			LEFT JOIN Room_Category ON Room.id_room_category = Room_Category.id_room_category
 			LEFT JOIN Hotel ON Room.id_hotel = Hotel.id_hotel
 		WHERE
-			Hotel.name = 'Космос' and
-			Room_Category.name = 'Бизнес'
+			Hotel.name = 'РљРѕСЃРјРѕСЃ' and
+			Room_Category.name = 'Р‘РёР·РЅРµСЃ'
 	)
 
-/*7. Найти все "пересекающиеся" варианты проживания.*/
+/*7. РќР°Р№С‚Рё РІСЃРµ "РїРµСЂРµСЃРµРєР°СЋС‰РёРµСЃСЏ" РІР°СЂРёР°РЅС‚С‹ РїСЂРѕР¶РёРІР°РЅРёСЏ.*/
 
 SELECT
 	*
@@ -189,7 +189,7 @@ WHERE
 	first.id_room = second.id_room and 
 	first.check_in_date >= second.check_in_date and first.check_in_date < second.check_out_date
 
-/*8.Создать бронирование в транзакции*/
+/*8.РЎРѕР·РґР°С‚СЊ Р±СЂРѕРЅРёСЂРѕРІР°РЅРёРµ РІ С‚СЂР°РЅР·Р°РєС†РёРё*/
 
 USE HotelReservation
 
@@ -198,7 +198,7 @@ BEGIN TRANSACTION
 INSERT
 INTO Client
 VALUES 
-	('Сидоров Устин Андреевич', 79992356457);
+	('РЎРёРґРѕСЂРѕРІ РЈСЃС‚РёРЅ РђРЅРґСЂРµРµРІРёС‡', 79992356457);
 
 INSERT
 INTO Booking
@@ -212,7 +212,7 @@ VALUES
 
 COMMIT;
 
-/*9.Добавить необходимые индексы для всех таблиц.*/
+/*9.Р”РѕР±Р°РІРёС‚СЊ РЅРµРѕР±С…РѕРґРёРјС‹Рµ РёРЅРґРµРєСЃС‹ РґР»СЏ РІСЃРµС… С‚Р°Р±Р»РёС†.*/
 
 CREATE INDEX IX_Room_in_Booking_id_booking
 ON Room_in_Booking(id_booking ASC);
