@@ -1,29 +1,15 @@
 CREATE TABLE "Apartment" (
 	"id_apartment" INTEGER PRIMARY KEY IDENTITY,
-	"firstname_lastname" NVARCHAR(50) NOT NULL,
+	"owner_name" NVARCHAR(50) NOT NULL,
 	"street" NVARCHAR(30) NOT NULL,
 	"house_number" INTEGER NOT NULL,
 	"apartment_number" INTEGER NOT NULL,
-	"area" INTEGER NOT NULL,
+	"area" FLOAT NOT NULL,
 	"tenant_amount" INTEGER NOT NULL
 );
 
-CREATE TABLE "Apartment_Consumtion" (
-	"id_apartment_consumption" INTEGER PRIMARY KEY IDENTITY,
-	"id_apartment" INTEGER NOT NULL,
-	"date" DATE NOT NULL,
-	"water" INTEGER NOT NULL,
-	"warm_water" INTEGER NOT NULL,
-	"sewerage" INTEGER NOT NULL,
-	"electricity" INTEGER NOT NULL,
-	"natural_gas" INTEGER NOT NULL,
-	"garbage" INTEGER NOT NULL,
-	"overhaul" INTEGER NOT NULL,
-	"heating" INTEGER NOT NULL
-);
-
 CREATE TABLE "Tariff" (
-	"id_tariff" INTEGER PRIMARY KEY IDENTITY(1,1),
+	"id_tariff" INTEGER PRIMARY KEY IDENTITY,
 	"up_to_date" DATE,
 	"resource" NVARCHAR(20) NOT NULL,
 	"measure_unit" NVARCHAR(20) NOT NULL,
@@ -38,9 +24,23 @@ CREATE TABLE "Tariff_New" (
 	"price" MONEY NOT NULL
 );
 
+CREATE TABLE "Apartment_Tariff" (
+	"id_apartment_tariff" INTEGER PRIMARY KEY IDENTITY,
+	"id_apartment" INTEGER NOT NULL,
+	"id_tariff" INTEGER NOT NULL
+);
+
+CREATE TABLE "Apartment_Consumtion" (
+	"id_apartment_consumtion" INTEGER PRIMARY KEY IDENTITY,
+	"id_apartment_tariff" INTEGER NOT NULL,
+	"date" DATE NOT NULL,
+	"consumtion" FLOAT NOT NULL
+);
+
+
 CREATE TABLE "Bill" (
 	"id_bill" INTEGER PRIMARY KEY IDENTITY,
-	"id_tariff" INTEGER NOT NULL,
+	"id_apartment_tariff" INTEGER NOT NULL,
 	"id_apartment_consumption" INTEGER NOT NULL,
 	"pay_up_to_date" DATE NOT NULL,
 	"sum" MONEY NOT NULL,
@@ -51,8 +51,7 @@ CREATE TABLE "Payment" (
 	"id_bill" INTEGER NOT NULL,
 	"payment_day" DATE,
 	"payment" MONEY NOT NULL,
-	"payment_place" NVARCHAR(30) NOT NULL,
-	"cheque" NVARCHAR(100) NOT NULL
+	"cheque" TEXT NOT NULL
 );
 
 /*Just filling*/
@@ -81,17 +80,30 @@ VALUES
 ('Воробьёв Радислав Алексеевич', 'Wishing Quail Quay', 2, 3, 38, 3),
 ('Поляков Юлиан Дмитриевич', 'Umber Gate', 7, 2, 30, 3);
 
+INSERT INTO Apartment_Tariff
+VALUES 
+(1, 1), (1, 2), (1, 4), (1, 6), (1, 8),
+(2, 1), (2, 2), (2, 4), (2, 6), (2, 8),
+(3, 1), (3, 2), (3, 4), (3, 6), (3, 8),
+(4, 1), (4, 2), (4, 4), (4, 6), (4, 8),
+(5, 1), (5, 3), (5, 5), (5, 7), (5, 9),
+(6, 1), (6, 3), (6, 5), (6, 7), (6, 9),
+(7, 1), (7, 3), (7, 5), (7, 7), (7, 9),
+(8, 1), (8, 3), (8, 5), (8, 7), (8, 9),
+(9, 1), (9, 3), (9, 5), (9, 7), (9, 9)
+
+
 INSERT INTO Apartment_Consumtion
 VALUES 
-(1, '2020-03-30', 3, 1, 4, 20, 20, 1, 1, 1),
-(2, '2020-04-02', 5, 2, 7, 23, 18, 1, 1, 1),
-(3, '2020-04-06', 10, 1, 12, 39, 17, 1, 1, 1),
-(4, '2020-04-23', 12, 1, 13, 34, 20, 1, 1, 1),
-(5, '2020-04-27', 6, 1, 7, 28, 19, 1, 1, 1),
-(6, '2020-03-31', 3, 1, 4, 26, 22, 1, 1, 1),
-(7, '2020-04-02', 3, 2, 5, 22, 25, 1, 1, 1),
-(8, '2020-04-10', 2, 3, 5, 15, 23, 1, 1, 1),
-(9, '2020-04-15', 7, 2, 10, 45, 22, 1, 1, 1);
+(1, '2020-03-30', 20),
+(2, '2020-04-02', 18),
+(3, '2020-04-06', 17),
+(4, '2020-04-23', 20),
+(5, '2020-04-27', 19),
+(6, '2020-03-31', 22),
+(7, '2020-04-02', 25),
+(8, '2020-04-10', 23),
+(9, '2020-04-15', 22);
 
 INSERT INTO Bill
 VALUES 
@@ -220,29 +232,36 @@ HAVING AVG(area) > 30;
 /*8.SELECT JOIN*/
 
 SELECT 
-	Apartment.id_apartment, firstname_lastname, street, house_number, apartment_number, water
+	*
 FROM
-	Apartment LEFT JOIN Apartment_Consumtion 
-	ON Apartment.id_apartment = Apartment_Consumtion.id_apartment
+	Apartment_Tariff
+	LEFT JOIN Tariff ON Tariff.id_tariff = Apartment_Tariff.id_tariff
 WHERE
-	water > 5;
+	Tariff.resource = 'Вода'
 
 SELECT 
-	Apartment.id_apartment, firstname_lastname, street, house_number, apartment_number, water
+	*
 FROM
-	Apartment_Consumtion RIGHT JOIN Apartment
-	ON Apartment_Consumtion.id_apartment = Apartment.id_apartment
+	Tariff
+	RIGHT JOIN Apartment_Tariff ON Tariff.id_tariff = Apartment_Tariff.id_tariff
 WHERE
-	water > 5;
+	Tariff.resource = 'Вода'
 
 SELECT 
-	Apartment.id_apartment, firstname_lastname, street, house_number, apartment_number
+	id_apartment, consumtion
 FROM
-	Bill 
-	LEFT JOIN Apartment_Consumtion ON Bill.id_apartment_consumption = Apartment_Consumtion.id_apartment_consumption
-	LEFT JOIN Apartment ON Apartment_Consumtion.id_apartment = Apartment.id_apartment
+	Apartment_Tariff
+	LEFT JOIN Tariff ON Tariff.id_tariff = Apartment_Tariff.id_tariff
+	LEFT JOIN Apartment_Consumtion ON Apartment_Consumtion.id_apartment_tariff = Apartment_Tariff.id_apartment_tariff
 WHERE
-	sum > 1200 and electricity > 20 and tenant_amount < 2
+	Tariff.resource = 'Вода' and
+	Apartment_Consumtion.consumtion > 5
+
+SELECT 
+	*
+FROM
+	Tariff
+	FULL OUTER JOIN Apartment_Tariff ON Tariff.id_tariff = Apartment_Tariff.id_tariff
 
 /*Подзапросы*/
 
@@ -252,9 +271,12 @@ FROM
 WHERE id_apartment IN (
 	SELECT id_apartment
 	FROM 
-		Apartment_Consumtion
+		Apartment_Tariff
+		LEFT JOIN Apartment_Consumtion ON Apartment_Consumtion.id_apartment_tariff = Apartment_Tariff.id_apartment_tariff
+		LEFT JOIN Tariff ON Tariff.id_tariff = Apartment_Tariff.id_tariff
 	WHERE 
-		water > 5);
+		consumtion > 18 and
+		resource = 'Вода');
 
 SELECT "resource", (SELECT count("resource")
 	FROM Tariff
@@ -264,3 +286,5 @@ FROM
 WHERE "resource" = 'Вода'
 GROUP BY "resource"
 	
+
+		
