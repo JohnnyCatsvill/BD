@@ -73,6 +73,12 @@ ALTER TABLE Booking
 ALTER TABLE Room_in_Booking
 	ADD FOREIGN KEY (id_booking) REFERENCES Booking(id_booking) ON DELETE CASCADE;
 
+ALTER TABLE Room_in_Booking
+	ADD FOREIGN KEY (id_room) REFERENCES Room(id_room) ON DELETE CASCADE;
+
+ALTER TABLE Room
+	ADD FOREIGN KEY (id_room_category) REFERENCES Room_Category(id_room_category) ON DELETE CASCADE;
+
 /*2.Выдать информацию о клиентах гостиницы “Космос”, проживающих в номерах категории “Люкс” на 1 апреля 2019г*/
 
 SELECT 
@@ -113,7 +119,7 @@ WHERE
 /*4.Дать количество проживающих в гостинице “Космос” на 23 марта по каждой категории номеров*/
 
 SELECT 
-	Room_Category.name, COUNT(Room_Category.name)
+	Room_Category.name ,COUNT(Room_Category.id_room_category)
 FROM
 	Room_in_Booking
 	LEFT JOIN Room ON Room_in_Booking.id_room = Room.id_room
@@ -123,22 +129,32 @@ WHERE
 	Hotel.name = 'Космос' and
 	check_in_date <= '2019-03-23' and 
 	check_out_date > '2019-03-23'
-GROUP BY Room_Category.name
+GROUP BY Room_Category.id_room_category, Room_Category.name	
 
 /*5.Дать список последних проживавших клиентов по всем комнатам гостиницы “Космос”, выехавшим в апреле с указанием даты выезда*/
 
 SELECT 
-	Client.name, Client.phone, check_out_date
+	Room.number ,Client.name, Client.phone, check_out_date
 FROM
 	Room_in_Booking
 	LEFT JOIN Booking ON Room_in_Booking.id_booking = Booking.id_booking
 	LEFT JOIN Room ON Room_in_Booking.id_room = Room.id_room
 	LEFT JOIN Hotel ON Room.id_hotel = Hotel.id_hotel
 	LEFT JOIN Client ON Booking.id_client = Client.id_client
-WHERE
-	Hotel.name = 'Космос' and
-	check_out_date >= '2019-04-01' and 
-	check_out_date < '2019-05-01';
+WHERE id_room_booking IN 
+(
+	SELECT
+		MAX(id_room_booking)
+	FROM
+		Room_in_Booking
+	WHERE
+		check_out_date >= '2019-04-01' and 
+		check_out_date < '2019-05-01'
+	GROUP BY
+		Room_in_Booking.id_room
+) and
+	Hotel.name = 'Космос'
+ORDER BY number ASC;
 
 /*6.Продлить на 2 дня дату проживания в гостинице “Космос” всем клиентам комнат категории “Бизнес”, которые заселились 10 мая.*/
 
@@ -169,12 +185,9 @@ FROM
 	Room_in_Booking as first
 	CROSS JOIN Room_in_Booking as second
 WHERE
-	first.id_room_booking > second.id_room_booking and
-	first.id_room = second.id_room and (
-	second.check_in_date >= first.check_in_date and second.check_in_date < first.check_out_date or
-	second.check_out_date > first.check_in_date and second.check_out_date <= first.check_out_date or
-	first.check_in_date >= second.check_in_date and first.check_in_date < second.check_out_date or
-	first.check_out_date > second.check_in_date and first.check_out_date <= second.check_out_date)
+	first.id_room_booking != second.id_room_booking and
+	first.id_room = second.id_room and 
+	first.check_in_date >= second.check_in_date and first.check_in_date < second.check_out_date
 
 /*8.Создать бронирование в транзакции*/
 
@@ -209,3 +222,12 @@ ON Room(id_hotel ASC);
 
 CREATE INDEX IX_Booking_id_client
 ON Booking(id_client ASC);
+
+CREATE INDEX IX_Room_in_Booking_id_room
+ON Room_in_Booking(id_room ASC);
+
+DROP INDEX IX_Room_in_Booking_id_room
+ON Room_in_Booking
+
+CREATE INDEX IX_Room_id_room_category
+ON Room(id_room_category ASC);
