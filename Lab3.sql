@@ -58,27 +58,27 @@ CREATE TABLE "Payment" (
 
 INSERT INTO Tariff
 VALUES 
-('2018-12-31', 'Вода', 'м^3', 17),
-('2018-12-31', 'Тёплая вода', 'м^3', 25),
-('2019-12-31', 'Тёплая вода', 'м^3', 28),
-('2018-12-31', 'Электричество', 'КВт/ч', 3.5),
-('2019-12-31', 'Электричество', 'КВт/ч', 4),
-('2018-12-31', 'Газ', 'м^3', 10),
-('2019-12-31', 'Газ', 'м^3', 12),
-('2018-12-31', 'Канализация', 'м^3', 18),
-('2019-12-31', 'Канализация', 'м^3', 20);
+('2018-12-31', 'Р’РѕРґР°', 'Рј^3', 17),
+('2018-12-31', 'РўС‘РїР»Р°СЏ РІРѕРґР°', 'Рј^3', 25),
+('2019-12-31', 'РўС‘РїР»Р°СЏ РІРѕРґР°', 'Рј^3', 28),
+('2018-12-31', 'Р­Р»РµРєС‚СЂРёС‡РµСЃС‚РІРѕ', 'РљР’С‚/С‡', 3.5),
+('2019-12-31', 'Р­Р»РµРєС‚СЂРёС‡РµСЃС‚РІРѕ', 'РљР’С‚/С‡', 4),
+('2018-12-31', 'Р“Р°Р·', 'Рј^3', 10),
+('2019-12-31', 'Р“Р°Р·', 'Рј^3', 12),
+('2018-12-31', 'РљР°РЅР°Р»РёР·Р°С†РёСЏ', 'Рј^3', 18),
+('2019-12-31', 'РљР°РЅР°Р»РёР·Р°С†РёСЏ', 'Рј^3', 20);
 
 INSERT INTO Apartment
 VALUES 
-('Саксаганский Шарль Александрович', 'Umber Gate', 1, 1, 30, 1),
-('Плаксий Чарльз Сергеевич', 'Wishing Quail Quay', 5, 2, 30, 2),
-('Ефимов Заур Романович', 'Pleasant Knoll', 10, 1, 30, 2),
-('Лыткин Люций Романович', 'Stony River Crest', 12, 1, 35, 3),
-('Горбунов Цицерон Юхимович', 'Gentle Spring Crescent', 6, 1, 28, 2),
-('Барановский Оскар Михайлович', 'Gentle Spring Crescent', 3, 1, 35, 1),
-('Гриневская Владлен Эдуардович', 'Gentle Spring Crescent', 3, 2, 35, 2),
-('Воробьёв Радислав Алексеевич', 'Wishing Quail Quay', 2, 3, 38, 3),
-('Поляков Юлиан Дмитриевич', 'Umber Gate', 7, 2, 30, 3);
+('РЎР°РєСЃР°РіР°РЅСЃРєРёР№ РЁР°СЂР»СЊ РђР»РµРєСЃР°РЅРґСЂРѕРІРёС‡', 'Umber Gate', 1, 1, 30, 1),
+('РџР»Р°РєСЃРёР№ Р§Р°СЂР»СЊР· РЎРµСЂРіРµРµРІРёС‡', 'Wishing Quail Quay', 5, 2, 30, 2),
+('Р•С„РёРјРѕРІ Р—Р°СѓСЂ Р РѕРјР°РЅРѕРІРёС‡', 'Pleasant Knoll', 10, 1, 30, 2),
+('Р›С‹С‚РєРёРЅ Р›СЋС†РёР№ Р РѕРјР°РЅРѕРІРёС‡', 'Stony River Crest', 12, 1, 35, 3),
+('Р“РѕСЂР±СѓРЅРѕРІ Р¦РёС†РµСЂРѕРЅ Р®С…РёРјРѕРІРёС‡', 'Gentle Spring Crescent', 6, 1, 28, 2),
+('Р‘Р°СЂР°РЅРѕРІСЃРєРёР№ РћСЃРєР°СЂ РњРёС…Р°Р№Р»РѕРІРёС‡', 'Gentle Spring Crescent', 3, 1, 35, 1),
+('Р“СЂРёРЅРµРІСЃРєР°СЏ Р’Р»Р°РґР»РµРЅ Р­РґСѓР°СЂРґРѕРІРёС‡', 'Gentle Spring Crescent', 3, 2, 35, 2),
+('Р’РѕСЂРѕР±СЊС‘РІ Р Р°РґРёСЃР»Р°РІ РђР»РµРєСЃРµРµРІРёС‡', 'Wishing Quail Quay', 2, 3, 38, 3),
+('РџРѕР»СЏРєРѕРІ Р®Р»РёР°РЅ Р”РјРёС‚СЂРёРµРІРёС‡', 'Umber Gate', 7, 2, 30, 3);
 
 INSERT INTO Apartment_Tariff
 VALUES 
@@ -120,10 +120,10 @@ VALUES
 /*1.INSERT*/
 
 INSERT INTO Tariff
-VALUES ('2019-12-31', 'Вода', 'м^3', 18);
+VALUES ('2019-12-31', 'Р’РѕРґР°', 'Рј^3', 18);
 
 INSERT INTO Tariff_New(up_to_date, resource, measure_unit, price)
-VALUES ('2020-06-30', 'Вода', 'куб. метр', 20);
+VALUES ('2020-06-30', 'Р’РѕРґР°', 'РєСѓР±. РјРµС‚СЂ', 20);
 
 INSERT INTO Tariff(up_to_date, resource, measure_unit, price)
 SELECT up_to_date, resource, measure_unit, price
@@ -141,14 +141,14 @@ TRUNCATE TABLE Tariff;
 /*3.UPDATE*/
 
 UPDATE Tariff
-SET measure_unit = 'м^3';
+SET measure_unit = 'Рј^3';
 
 UPDATE Tariff
 SET price = '21'
 WHERE id_tariff = 2;
 
 UPDATE Tariff
-SET price = '20', measure_unit = '900 л' 
+SET price = '20', measure_unit = '900 Р»' 
 WHERE id_tariff = 2;
 
 /*4.SELECT*/
@@ -179,7 +179,7 @@ FROM
 	FROM Tariff) AS A
 ORDER BY price ASC;
 
-/*6.Работа с датами*/
+/*6.Р Р°Р±РѕС‚Р° СЃ РґР°С‚Р°РјРё*/
 
 SELECT *
 FROM Tariff
@@ -237,7 +237,7 @@ FROM
 	Apartment_Tariff
 	LEFT JOIN Tariff ON Tariff.id_tariff = Apartment_Tariff.id_tariff
 WHERE
-	Tariff.resource = 'Вода'
+	Tariff.resource = 'Р’РѕРґР°'
 
 SELECT 
 	*
@@ -245,7 +245,7 @@ FROM
 	Tariff
 	RIGHT JOIN Apartment_Tariff ON Tariff.id_tariff = Apartment_Tariff.id_tariff
 WHERE
-	Tariff.resource = 'Вода'
+	Tariff.resource = 'Р’РѕРґР°'
 
 SELECT 
 	id_apartment, consumtion
@@ -254,7 +254,7 @@ FROM
 	LEFT JOIN Tariff ON Tariff.id_tariff = Apartment_Tariff.id_tariff
 	LEFT JOIN Apartment_Consumtion ON Apartment_Consumtion.id_apartment_tariff = Apartment_Tariff.id_apartment_tariff
 WHERE
-	Tariff.resource = 'Вода' and
+	Tariff.resource = 'Р’РѕРґР°' and
 	Apartment_Consumtion.consumtion > 5
 
 SELECT 
@@ -263,7 +263,7 @@ FROM
 	Tariff
 	FULL OUTER JOIN Apartment_Tariff ON Tariff.id_tariff = Apartment_Tariff.id_tariff
 
-/*Подзапросы*/
+/*РџРѕРґР·Р°РїСЂРѕСЃС‹*/
 
 SELECT *
 FROM 
@@ -276,14 +276,14 @@ WHERE id_apartment IN (
 		LEFT JOIN Tariff ON Tariff.id_tariff = Apartment_Tariff.id_tariff
 	WHERE 
 		consumtion > 18 and
-		resource = 'Вода');
+		resource = 'Р’РѕРґР°');
 
 SELECT "resource", (SELECT count("resource")
 	FROM Tariff
-	WHERE "resource" = 'Вода')
+	WHERE "resource" = 'Р’РѕРґР°')
 FROM 
 	Tariff
-WHERE "resource" = 'Вода'
+WHERE "resource" = 'Р’РѕРґР°'
 GROUP BY "resource"
 	
 
